@@ -63,5 +63,5 @@ AsciiListConverter is a simple C++ program that takes a string of numeric ASCII 
 This program is open-source under MIT license and can be used for educational and non-commercial purposes.
 
 ## Author
-Andrea
+draco892
 
