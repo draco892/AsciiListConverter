@@ -1,21 +1,70 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <string>
 
-int main() {
-    // Input dei valori ASCII
-    std::string input = "36 31 36 31 34 32 33 30 33 30 33 39 33 36 34 42 33 31 35 34 34 34 33 30 33 30 35 33 33 30 33 30 33 30 33 30 33 34 34 35 33 33 33 38 33 36 33 37 33 33 33 36 33 34 33 34 33 31 33 34 34 34 34 32 33 38 33 38 33 37 33 38 33 39 33 30 33 34 33 38 34 32 33 30 33 34 34 31 33 33 33 31 33 31 33 31 33 34 33 32 33 37 34 36 34 36 34 33 33 32 33 39 33 32 34 36 33 32 33 33 33 39 33 35 33 34 33 37 34 32 33 38 33 33 33 30 33 33 33 31 34 34 34 35 33 38 33 30 33 35 34 32 33 33 34 31 33 31 33 37 33 30 34 32 33 34 33 31 33 37 34 33 34 32 34 35 34 34 33 39 34 32 33 31 34 34 33 30 33 38 33 39 33 34 34 32 37 44";
+static const 
 
-    // Creazione di uno stream per elaborare l'input
-    std::istringstream iss(input);
-    std::string value;
+enum class ReturnValues : short int
+{
+    NO_INPUT_FILE                   = -1,
+    IMPOSSIBLE_CREATE_OUTPUT_FILE   = -2,
+    INVALID_PARAMETERS              = -3,
+    NO_ERROR                        = 0
+};
 
-    // Elaborazione e stampa del risultato
-    while (iss >> value) {
-        int ascii_code = std::stoi(value); // Converte il valore in intero
-        char character = static_cast<char>(ascii_code); // Converte in carattere ASCII
-        std::cout << value << "\t|\t" << character << std::endl;
+static const std::string outputFileName = "output.txt";
+
+// function that check if the file exist
+bool CheckIfFileExist(const std::ifstream &file)
+{
+    return file.is_open();
+}
+
+char ConvertToAscii(const std::string& input)
+{
+    // Convert string to integer
+    int asciiValue;
+    std::istringstream(input) >> asciiValue;
+
+    // Return the corresponding ASCII character
+    return static_cast<char>(asciiValue);
+}
+
+int main(int argc, char* argv[])
+{
+    // Pamaters number check
+    if (argc < 2)
+    {
+        std::cerr << "ERROR:\tno input file parameters\n";
+        return static_cast<int>(ReturnValues::INVALID_PARAMETERS);
     }
 
-    return 0;
+    // Input file
+    std::cout << "Input File Path:\t" << argv[1] << std::endl;
+
+    std::ifstream inputFile(argv[1]);
+
+    if (!CheckIfFileExist(inputFile))
+    {
+        std::cerr << "ERROR:\tno input file\n\t" << argv[1] << std::endl;
+        return static_cast<int>(ReturnValues::NO_INPUT_FILE);
+    }
+
+    std::string inputFileLine;
+
+    while (std::getline(inputFile, inputFileLine))
+    {
+        std::istringstream iss(inputFileLine);
+        std::string value;
+
+        while (iss >> value)
+        {
+            std::cout << value << "\t|\t" << ConvertToAscii(value) << std::endl;
+        }
+    }
+
+    inputFile.close();
+
+    return static_cast<int>(ReturnValues::NO_ERROR);
 }
