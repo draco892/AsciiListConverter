@@ -1,42 +1,43 @@
 # AsciiListConverter
 
 ## Description
-AsciiListConverter is a simple C++ program that takes a string of numeric ASCII codes as input and converts them into their corresponding ASCII characters. The program is designed to process a sequence of space-separated integers and output a table showing the ASCII code alongside its corresponding character.
+AsciiListConverter is a simple C++ program that reads a file containing numeric ASCII codes as input and converts them into their corresponding ASCII characters. The program processes a sequence of space-separated integers from the file and outputs a table showing the ASCII code alongside its corresponding character to a file named `output.txt`.
 
 ## Features
+- Reads numeric ASCII codes from an input file.
 - Converts numeric ASCII codes into characters.
-- Displays the input code and the corresponding character in a clear, tabular format.
+- Outputs the input code and the corresponding character in a clear, tabular format to `output.txt`.
 - Simple and lightweight, suitable for quick ASCII lookups or educational purposes.
 
 ## How It Works
-1. **Input**: The program accepts a space-separated string of numeric ASCII values as input.
+1. **Input**: The program accepts the path to an input file containing space-separated numeric ASCII values as a command-line argument.
 2. **Processing**: Each value is converted from a string to an integer and then to its corresponding ASCII character.
-3. **Output**: The program prints each ASCII value alongside its character in a formatted output.
+3. **Output**: The program writes each ASCII value alongside its character to an output file named `output.txt`.
 
 ### Example
-#### Input:
+#### Input File (input.txt):
 ```
 36 31 36 31 34 32 33 30 33 30 33 39 33 36 34 42
 ```
 
-#### Output:
+#### Output File (output.txt):
 ```
-36      | 6
-31      | 1
-36      | 6
-31      | 1
-34      | 4
-32      | 2
-33      | 3
-30      | 0
-33      | 3
-30      | 0
-33      | 3
-39      | 9
-33      | 3
-36      | 6
-34      | 4
-42      | B
+36      |       6
+31      |       1
+36      |       6
+31      |       1
+34      |       4
+32      |       2
+33      |       3
+30      |       0
+33      |       3
+30      |       0
+33      |       3
+39      |       9
+33      |       3
+36      |       6
+34      |       4
+42      |       B
 ```
 
 ## Getting Started
@@ -50,17 +51,25 @@ AsciiListConverter is a simple C++ program that takes a string of numeric ASCII 
    ```
    g++ -std=c++14 -o ascii_converter ascii_converter.cpp
    ```
-3. Run the program:
+3. Run the program, providing the path to the input file as an argument:
    ```
-   ./ascii_converter
+   ./ascii_converter input.txt
    ```
 
 ### Running the Program
-- Enter the input string of ASCII codes when prompted.
-- View the output table showing each code and its corresponding character.
+- Ensure the input file exists and contains space-separated ASCII codes.
+- Run the program with the input file path as a command-line argument.
+- View the output in the `output.txt` file generated in the same directory as the program.
+
+## Return Values
+The program uses the following return values to indicate execution status:
+- `0`: No error (execution successful).
+- `-1`: Input file does not exist.
+- `-2`: Unable to create the output file.
+- `-3`: Invalid parameters (e.g., missing input file path).
 
 ## License
-This program is open-source under MIT license and can be used for educational and non-commercial purposes.
+This program is open-source under the MIT license and can be used for educational and non-commercial purposes.
 
 ## Author
 draco892
