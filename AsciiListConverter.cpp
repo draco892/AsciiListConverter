@@ -3,20 +3,18 @@
 #include <sstream>
 #include <string>
 
-static const 
+static const std::string outputFileName = "output.txt";
 
 enum class ReturnValues : short int
 {
-    NO_INPUT_FILE                   = -1,
-    IMPOSSIBLE_CREATE_OUTPUT_FILE   = -2,
-    INVALID_PARAMETERS              = -3,
-    NO_ERROR                        = 0
+    NO_INPUT_FILE = -1,
+    IMPOSSIBLE_CREATE_OUTPUT_FILE = -2,
+    INVALID_PARAMETERS = -3,
+    NO_ERROR = 0
 };
 
-static const std::string outputFileName = "output.txt";
-
-// function that check if the file exist
-bool CheckIfFileExist(const std::ifstream &file)
+// Function that checks if the file exists
+bool CheckIfFileExist(const std::ifstream& file)
 {
     return file.is_open();
 }
@@ -33,7 +31,7 @@ char ConvertToAscii(const std::string& input)
 
 int main(int argc, char* argv[])
 {
-    // Pamaters number check
+    // Parameter number check
     if (argc < 2)
     {
         std::cerr << "ERROR:\tno input file parameters\n";
@@ -51,6 +49,14 @@ int main(int argc, char* argv[])
         return static_cast<int>(ReturnValues::NO_INPUT_FILE);
     }
 
+    // Output file
+    std::ofstream outputFile(outputFileName);
+    if (!outputFile.is_open())
+    {
+        std::cerr << "ERROR:\timpossible to create output file\n";
+        return static_cast<int>(ReturnValues::IMPOSSIBLE_CREATE_OUTPUT_FILE);
+    }
+
     std::string inputFileLine;
 
     while (std::getline(inputFile, inputFileLine))
@@ -60,11 +66,15 @@ int main(int argc, char* argv[])
 
         while (iss >> value)
         {
-            std::cout << value << "\t|\t" << ConvertToAscii(value) << std::endl;
+            char asciiChar = ConvertToAscii(value);
+            outputFile << value << "\t|\t" << asciiChar << std::endl;
         }
     }
 
     inputFile.close();
+    outputFile.close();
+
+    std::cout << "Output written to: " << outputFileName << std::endl;
 
     return static_cast<int>(ReturnValues::NO_ERROR);
 }
